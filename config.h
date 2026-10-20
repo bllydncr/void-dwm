@@ -34,7 +34,7 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 static const int refreshrate = 120;  /* refresh rate (per second) for client move/resize */
 
@@ -60,7 +60,12 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 //static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *dmenucmd[]  = { "j4-dmenu-desktop", NULL };
-static const char *termcmd[]  = { "alacritty", NULL };
+static const char *termcmd[]  = { "st", NULL };
+/* screen lock & screenshot */
+static const char *lockcmd[]     = { "slock", NULL };
+static const char *scrotfullcmd[]  = { "screenshot", "full",   NULL };
+static const char *scrotselcmd[]   = { "screenshot", "select", NULL };
+/* --- */
 static const char *clipmenucmd[] = {
     "env", "CM_LAUNCHER=dmenu",
     "clipmenu",
@@ -87,6 +92,11 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_z,      zoom,           {0} },
     { MODKEY,                       XK_v,      spawn,          {.v = clipmenucmd } },
+    /* lock & screenshot */
+	{ MODKEY|ShiftMask,             XK_x,      spawn,          {.v = lockcmd } },     /* Super+Shift+x → kilit */
+	{ 0,                            XK_Print,  spawn,          {.v = scrotfullcmd } },  /* Print → tüm ekran */
+	{ ShiftMask,                    XK_Print,  spawn,          {.v = scrotselcmd } },   /* Shift+Print → seçim */
+    /* --- */
     /* move-stack patch */
     { MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
     { MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
