@@ -66,6 +66,11 @@ static const char *lockcmd[]     = { "slock", NULL };
 static const char *scrotfullcmd[]  = { "screenshot", "full",   NULL };
 static const char *scrotselcmd[]   = { "screenshot", "select", NULL };
 /* --- */
+/* volume up down thing */
+static const char *volup[]   = { "wpctl", "set-volume", "-l", "1.0", "@DEFAULT_AUDIO_SINK@", "5%+", NULL };
+static const char *voldown[] = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "5%-", NULL };
+static const char *volmute[] = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
+/* --- */
 static const char *clipmenucmd[] = {
     "env", "CM_LAUNCHER=dmenu",
     "clipmenu",
@@ -96,6 +101,13 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_x,      spawn,          {.v = lockcmd } },     /* Super+Shift+x → kilit */
 	{ 0,                            XK_Print,  spawn,          {.v = scrotfullcmd } },  /* Print → tüm ekran */
 	{ ShiftMask,                    XK_Print,  spawn,          {.v = scrotselcmd } },   /* Shift+Print → seçim */
+    /* --- */
+    /* volume up down thing keybindings */
+    { MODKEY,           XK_equal,    spawn, {.v = volup } },    /* Mod + "=" (+ tuşu) */
+    { MODKEY,           XK_KP_Add,   spawn, {.v = volup } },
+    { MODKEY,           XK_minus,    spawn, {.v = voldown } },
+    { MODKEY,           XK_KP_Subtract, spawn, {.v = voldown } },
+    { MODKEY|ShiftMask, XK_m,        spawn, {.v = volmute } },  /* sessize al/aç */
     /* --- */
     /* move-stack patch */
     { MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
