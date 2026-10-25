@@ -1,22 +1,16 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
-static const char col_selborder[]   = "#fabd2f";   // <-- yeni satır (sarı)
-static const char *colors[][3]      = {
+static unsigned int borderpx  = 2;        /* border pixel of windows */
+static unsigned int snap      = 32;       /* snap pixel */
+static int showbar            = 1;        /* 0 means no bar */
+static int topbar             = 1;        /* 0 means bottom bar */
+static const char *fonts[]    = { "monospace:size=10" };
+
+static const char *colors[][3] = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_selborder },  // border olarak yeni rengi kullan
+	[SchemeNorm] = { "#bbbbbb", "#222222", "#444444" },
+	[SchemeSel]  = { "#eeeeee", "#005577", "#fabd2f" },  // border’ı belirgin yaptık
 };
 
 /* tagging */
@@ -33,11 +27,11 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
-static const int refreshrate = 120;  /* refresh rate (per second) for client move/resize */
+static float mfact = 0.55; /* factor of master area size [0.05..0.95] */
+static int nmaster = 1;    /* number of clients in master area */
+static int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+static int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static int refreshrate = 120;  /* refresh rate (per second) for client move/resize */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -76,11 +70,11 @@ static const char *clipmenucmd[] = {
     "env", "CM_LAUNCHER=dmenu",
     "clipmenu",
     "-i",
-    "-fn", dmenufont,
-    "-nb", col_gray1,      // normal arka plan
-    "-nf", col_gray3,      // normal yazı
-    "-sb", col_cyan,       // seçili arka plan
-    "-sf", col_gray4,      // seçili yazı
+    "-fn", "monospace:size=10",
+    "-nb", "#222222",
+    "-nf", "#bbbbbb",
+    "-sb", "#005577",
+    "-sf", "#eeeeee",
     NULL
 };
 
@@ -127,6 +121,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_F5,     xresreload,     {0} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -156,3 +151,21 @@ static const Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
 
+/* X resources to update */
+static const XResPref resources[] = {
+	/* name                  type     address */
+	{ "dwm.font",            STRING,  &fonts[0] },
+	{ "dwm.normfgcolor",     STRING,  &colors[SchemeNorm][0] },
+	{ "dwm.normbgcolor",     STRING,  &colors[SchemeNorm][1] },
+	{ "dwm.normbordercolor", STRING,  &colors[SchemeNorm][2] },
+	{ "dwm.selfgcolor",      STRING,  &colors[SchemeSel][0] },
+	{ "dwm.selbgcolor",      STRING,  &colors[SchemeSel][1] },
+	{ "dwm.selbordercolor",  STRING,  &colors[SchemeSel][2] },
+	{ "dwm.borderpx",        INTEGER, &borderpx },
+	{ "dwm.snap",            INTEGER, &snap },
+	{ "dwm.showbar",         INTEGER, &showbar },
+	{ "dwm.topbar",          INTEGER, &topbar },
+	{ "dwm.nmaster",         INTEGER, &nmaster },
+	{ "dwm.resizehints",     INTEGER, &resizehints },
+	{ "dwm.mfact",           FLOAT,   &mfact },
+};
