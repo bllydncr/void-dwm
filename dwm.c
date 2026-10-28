@@ -1038,7 +1038,16 @@ grabkeys(void)
 void
 incnmaster(const Arg *arg)
 {
-	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = MAX(selmon->nmaster + arg->i, 0);
+	int n = 0;
+	Client *c;
+
+	/* clamp nmaster to the number of tiled clients so that repeated
+	 * key presses cannot inflate the per-tag value unnoticed */
+	for (c = nexttiled(selmon->clients); c; c = nexttiled(c->next))
+		n++;
+
+	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] =
+		MAX(MIN(selmon->nmaster + arg->i, MAX(n, 1)), 0);
 	arrange(selmon);
 }
 
