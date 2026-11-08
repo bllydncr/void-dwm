@@ -5,7 +5,7 @@ static unsigned int borderpx  = 2;        /* border pixel of windows */
 static unsigned int snap      = 32;       /* snap pixel */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]    = { "monospace:size=10" };
+static const char *fonts[]    = { "JetBrainsMonoNF Nerd Font Mono:size=11" };
 
 static const char *colors[][3] = {
 	/*               fg         bg         border   */
@@ -14,7 +14,7 @@ static const char *colors[][3] = {
 };
 
 /* tagging */
-static const char *tags[] = { "󰞷", "", "󱥒", "", "󰇥", "", "󰡚", "󱗆", "" };
+static const char *tags[] = { "󰞷", "2", "", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -23,7 +23,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "firefox",  NULL,       NULL,       1 << 2,       0,           -1 },
 };
 
 /* layout(s) */
