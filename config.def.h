@@ -14,16 +14,19 @@ static const char *colors[][3] = {
 };
 
 /* tagging */
-static const char *tags[] = { "󰞷", "2", "", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "󰞷", "2", "", "󰊯", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
-	/* xprop(1):
+    /* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	{ "firefox",  NULL,       NULL,       1 << 2,       0,           -1 },
+	{ "Chromium", NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "grokmenu", NULL,       NULL,       0,            1,           -1 },
+    { "quicks",   NULL,       NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -66,17 +69,7 @@ static const char *volup[]   = { "wpctl", "set-volume", "-l", "1.0", "@DEFAULT_A
 static const char *voldown[] = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "5%-", NULL };
 static const char *volmute[] = { "wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
 /* --- */
-static const char *clipmenucmd[] = {
-    "env", "CM_LAUNCHER=dmenu",
-    "clipmenu",
-    "-i",
-    "-fn", "monospace:size=10",
-    "-nb", "#222222",
-    "-nf", "#bbbbbb",
-    "-sb", "#005577",
-    "-sf", "#eeeeee",
-    NULL
-};
+static const char *clipmenucmd[] = { "pkill", "-USR1", "-x", "clipd", NULL };
 
 #include "movestack.c"
 static const Key keys[] = {
@@ -118,7 +111,9 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
+	/* { MODKEY,                       XK_period, focusmon,       {.i = +1 } }, */
+    /* i use one monitor only so i dont't need monitor switching ( super + . is emoji selecting ) */ 
+    { MODKEY,                       XK_period, spawn,          SHCMD("/home/omer/.local/bin/emojipick") },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY,                       XK_F5,     xresreload,     {0} },
